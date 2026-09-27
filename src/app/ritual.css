@@ -1,0 +1,19 @@
+.ritual-prompt, .ritual-live { margin: 24px 0; }
+.ritual-prompt h2 { max-width: 560px; }
+.ritual-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.ritual-live { max-width: 760px; }
+.ritual-live p, .ritual-live .caption, .ritual-live .eyebrow, .ritual-prompt p, .ritual-prompt .eyebrow { color: #625f4d; }
+.ritual-live h1, .ritual-live h2, .ritual-modal h3 { overflow-wrap: anywhere; }
+.ritual-progress { padding: 20px 0; margin: 16px 0; border-block: 1px solid #dcd7c8; }
+.ritual-progress strong { font-family: var(--serif), Georgia, serif; font-size: 28px; color: #625c40; }
+.ritual-progress-dots { display: flex; flex-wrap: wrap; gap: 9px; }
+.ritual-progress-dots span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #60744e; color: white; }
+.ritual-memory { border-top: 1px solid #dcd7c8; padding-top: 20px; margin-top: 24px; }
+.ritual-memory label, .ritual-modal label { display: block; margin: 16px 0; color: #625f4d; font-size: 14px; }
+.ritual-modal input, .ritual-modal select { display: block; width: 100%; min-width: 0; box-sizing: border-box; padding: 12px; margin-top: 8px; border: 1px solid #dcd7c8; border-radius: 9px; background: #fffdf7; color: #5c5a4a; font: inherit; font-size: 16px; }
+.ritual-modal h2 { padding-right: 20px; }
+.ritual-modal form > .button { margin-top: 12px; width: 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  .ritual-progress { animation: ritual-grow .35s ease-out both; }
+  @keyframes ritual-grow { from { opacity: .4; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+}

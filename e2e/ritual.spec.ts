@@ -1,0 +1,78 @@
+import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+for (const [recurrence, date, expected] of [["biweekly", "2026-09-27T20:00", "11/10/2026"], ["monthly", "2027-01-31T20:00", "28/02/2027"]]) {
+  test(`${recurrence}: defer, cancel, edit, create and advance`, async ({ page }, info) => {
+    if (info.project.name === "mobile") await page.setViewportSize({ width: 320, height: 740 });
+    await page.goto("/#family");
+    await page.getByRole("button", { name: "Lên kế hoạch cho khoảng thời gian này" }).click();
+    await page.getByRole("button", { name: "Lên lịch bữa tối", exact: true }).click();
+    await page.getByRole("button", { name: "Đã cùng nhau dùng bữa" }).click();
+    await page.getByRole("button", { name: "Để sau", exact: true }).click();
+    await expect(page.getByRole("button", { name: "Tạo Nhịp nhà", exact: true })).toHaveCount(0);
+    await page.goto("/#ritual");
+    await page.getByRole("button", { name: "Tạo Nhịp nhà", exact: true }).click();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await page.getByRole("button", { name: "Tạo Nhịp nhà", exact: true }).click();
+    await page.getByLabel("Tên hoạt động", { exact: true }).fill("   ");
+    await page.getByRole("button", { name: "Lưu Nhịp nhà", exact: true }).click();
+    await expect(page.getByRole("dialog").getByRole("alert")).toContainText("Nhập tên hoạt động");
+    await page.getByLabel("Tên hoạt động", { exact: true }).fill("Bữa cơm Chủ nhật");
+    await page.getByLabel("Lặp lại", { exact: true }).selectOption(recurrence);
+    await page.getByLabel("Thời gian", { exact: true }).fill(date);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.getByRole("button", { name: "Lưu Nhịp nhà", exact: true }).click();
+    await page.getByRole("dialog").getByRole("button", { name: "Xem Nhịp nhà" }).click();
+    await page.getByRole("button", { name: "Đánh dấu đã hoàn thành", exact: true }).click();
+    await expect(page.getByText("2 lần bên nhau", { exact: true })).toBeVisible();
+    await expect(page.locator("main")).toContainText(expected);
+    await page.reload();
+    await expect(page.getByRole("heading", { name: "Bữa cơm Chủ nhật", exact: true })).toBeVisible();
+    await expect(page.getByText("2/2 lần đã hoàn thành", { exact: true })).toBeVisible();
+  });
+}
+test("completed dinner → memory → weekly ritual → 2/2 → 3/3 → new memory persists", async ({ page }, info) => {
+  await page.goto("/#family");
+  await page.getByRole("button", { name: "Lên kế hoạch cho khoảng thời gian này" }).click();
+  await page.getByRole("button", { name: "Lên lịch bữa tối", exact: true }).click();
+  await page.getByRole("button", { name: "Đã cùng nhau dùng bữa" }).click();
+  await expect(page.getByRole("heading", { name: "Khoảnh khắc này có đáng để lặp lại không?" })).toBeVisible();
+  await page.getByRole("button", { name: "Viết một kỷ niệm", exact: true }).click();
+  await page.getByLabel("Lời nhắn của bạn").fill("Bữa cơm đầu tiên.");
+  await page.getByRole("button", { name: "Lưu kỷ niệm", exact: true }).click();
+  await page.getByRole("button", { name: "Tạo Nhịp nhà", exact: true }).click();
+  await expect(page.getByLabel("Tên hoạt động", { exact: true })).toHaveValue("Bữa tối, chuyện nhà");
+  await page.getByLabel("Lặp lại", { exact: true }).selectOption("biweekly");
+  await page.getByLabel("Lặp lại", { exact: true }).selectOption("monthly");
+  await page.getByLabel("Lặp lại", { exact: true }).selectOption("weekly");
+  await page.evaluate(async () => { await Promise.all(document.getAnimations().filter(a => a.effect?.getComputedTiming().iterations !== Infinity).map(a => a.finished.catch(() => {}))); });
+  expect((await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze()).violations).toEqual([]);
+  await page.screenshot({ path: info.outputPath("ritual-create.png"), fullPage: true });
+  await page.getByRole("button", { name: "Lưu Nhịp nhà", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Đã tạo Nhịp nhà ❤️" })).toBeVisible();
+  await page.getByRole("dialog").getByRole("button", { name: "Xem Nhịp nhà" }).click();
+  await expect(page.getByText("1/1 lần đã hoàn thành", { exact: true })).toBeVisible();
+  for (const count of [2, 3]) {
+    await page.getByRole("button", { name: "Đánh dấu đã hoàn thành", exact: true }).click();
+    await expect(page.getByText(`${count} tuần bên nhau`, { exact: true })).toBeVisible();
+    await expect(page.getByText(`${count}/${count} lần đã hoàn thành`, { exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Viết kỷ niệm cho lần này" }).click();
+    await page.getByLabel("Lời nhắn cho lần này").fill(`Cả nhà vui ở lần ${count}.`);
+    await page.getByRole("button", { name: "Lưu kỷ niệm mới" }).click();
+    await expect(page.getByRole("heading", { name: "Đã giữ lại kỷ niệm này" })).toBeVisible();
+  }
+  await page.reload();
+  await expect(page.getByText("3/3 lần đã hoàn thành", { exact: true })).toBeVisible();
+  await page.evaluate(async () => { await Promise.all(document.getAnimations().filter(a => a.effect?.getComputedTiming().iterations !== Infinity).map(a => a.finished.catch(() => {}))); });
+  expect((await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze()).violations).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: info.outputPath("ritual-progress.png"), fullPage: true });
+  await page.goto("/#home");
+  await expect(page.getByText("NHỊP NHÀ SẮP TỚI", { exact: true })).toBeVisible();
+  await page.goto("/#ritual");
+  await expect(page.getByText("3 tuần bên nhau", { exact: true })).toBeVisible();
+  await page.goto("/#memories");
+  await expect(page.getByText("Cả nhà vui ở lần 2.", { exact: true })).toBeVisible();
+  await expect(page.getByText("Cả nhà vui ở lần 3.", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Tạo Nhịp nhà", exact: true })).toHaveCount(0);
+});

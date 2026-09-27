@@ -1,0 +1,205 @@
+/* Readable secondary text, with the same quiet, warm palette. */
+:root {
+  --muted: #6f6c60;
+  --serif: "Lora", Georgia, serif;
+}
+.eyebrow,
+.brand > span,
+.sidebar-note > span,
+.account small,
+.breadcrumb,
+.top-date,
+.private-tag,
+.demo-badge,
+.member-status span:not(.avatar),
+.duration,
+.together > span,
+.illustration-caption,
+.care-person span:not(.avatar),
+.soft-note,
+.consistency,
+.home-footer,
+.timeline-head,
+.legend,
+.privacy-note span,
+.caption,
+.memory-meta > span,
+.details-row span,
+.helper span:not(.avatar) {
+  color: #736b5b;
+}
+.window-copy > p,
+.window-time strong span {
+  color: #776447;
+}
+.text-link {
+  color: #875238;
+}
+.consistency > span:first-child {
+  color: #65754e;
+}
+.avatar.rose {
+  color: #814b44;
+}
+.avatar.blue {
+  color: #476063;
+}
+.avatar.sage {
+  color: #596236;
+}
+.avatar.peach {
+  color: #795332;
+}
+.bottom-nav button {
+  color: #746c5d;
+}
+.bottom-nav button.active {
+  color: #99452e;
+}
+.nav-item.active {
+  color: #834a34;
+}
+.button.secondary {
+  color: #974331;
+}
+.sidebar-note p {
+  font-size: 20px;
+  color: #687155;
+}
+.care-steps > div {
+  color: #736b5b;
+}
+.care-steps .completed {
+  color: #596943;
+}
+.muted {
+  color: #6f6c60;
+}
+.back,
+.reasons li,
+.details-row,
+.helper,
+.status-pill,
+.care-inline {
+  color: #665d4b;
+}
+.week-dots .done {
+  color: #53613f;
+}
+.warm > p,
+.warm .eyebrow,
+.warm .helper span:not(.avatar) {
+  color: #665d4b;
+}
+.success-text {
+  color: #52623e !important;
+}
+.nav-item {
+  color: #646858;
+}
+.window-copy .eyebrow,
+.duration,
+.together > span,
+.illustration-caption {
+  color: #665d4b;
+}
+.text-link {
+  min-height: 44px;
+}
+.window-copy > p,
+.care-home > p,
+.page-heading p {
+  font-size: 13px;
+}
+.member-status strong {
+  font-size: 12px;
+}
+.member-status span:not(.avatar) {
+  font-size: 10px;
+}
+.eyebrow {
+  font-size: 10px;
+}
+.ritual-preview .eyebrow,
+.memory-preview .eyebrow {
+  font-size: 9px;
+}
+.ritual-preview p,
+.memory-preview p {
+  font-size: 11px;
+}
+.button {
+  font-size: 13px;
+}
+@media (max-width: 700px) {
+  .window-card {
+    min-height: 420px;
+  }
+  .window-copy .button {
+    top: 346px;
+  }
+  .hero-illustration {
+    width: 44%;
+    right: -7px;
+    bottom: 90px;
+  }
+  .window-card h2 {
+    font-size: 28px;
+  }
+  .window-copy > p {
+    font-size: 12px;
+    max-width: 245px;
+  }
+  .window-copy .together {
+    gap: 7px;
+  }
+  .eyebrow {
+    font-size: 9px;
+  }
+  .ritual-preview .eyebrow,
+  .memory-preview .eyebrow {
+    font-size: 8px;
+  }
+  .page-heading p,
+  .care-home > p {
+    font-size: 14px;
+  }
+  .padded > p,
+  .reasons li {
+    font-size: 15px;
+  }
+  .button,
+  .window-copy .button,
+  .care-home .button {
+    font-size: 14px;
+  }
+  .soft-note {
+    font-size: 12px;
+  }
+  .bottom-nav button {
+    font-size: 10px;
+  }
+  .care-person strong {
+    font-size: 14px;
+  }
+  .care-person span:not(.avatar) {
+    font-size: 12px;
+  }
+  .care-home .soft-note {
+    font-size: 12px;
+  }
+  .consistency {
+    font-size: 10px;
+  }
+  .ritual-preview h3,
+  .memory-preview h3 {
+    font-size: 15px;
+  }
+  .ritual-preview p,
+  .memory-preview p {
+    font-size: 12px;
+  }
+  .timeline-row > div:first-child {
+    font-size: 11px;
+  }
+}

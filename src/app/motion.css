@@ -1,0 +1,80 @@
+/* Motion is decorative: no content, focus or actions wait on an animation. */
+:root {
+  --ease-out-soft: cubic-bezier(.22,1,.36,1);
+  --ease-spring-soft: cubic-bezier(.2,.8,.25,1.2);
+}
+@media (prefers-reduced-motion: no-preference) {
+  main > .page-heading,
+  main > .back {
+    animation: arrive 480ms var(--ease-out-soft) both;
+  }
+  .status-strip { animation: arrive 520ms 45ms var(--ease-out-soft) both; }
+  .member-status { animation: arrive 480ms var(--ease-out-soft) both; }
+  .member-status:nth-child(2) { animation-delay: 65ms; }
+  .member-status:nth-child(3) { animation-delay: 120ms; }
+  .member-status:nth-child(4) { animation-delay: 175ms; }
+  .home-grid > *, .content-grid > *, .lower-grid > *, .memory-card {
+    animation: arrive 600ms 70ms var(--ease-out-soft) both;
+  }
+  .home-grid > :nth-child(2), .content-grid > :nth-child(2),
+  .lower-grid > :nth-child(2), .memory-card:nth-child(2) { animation-delay: 145ms; }
+  .memory-card:nth-child(n+3) { animation-delay: 220ms; }
+  .lower-grid > * { animation-delay: 180ms; }
+  .faces .avatar { animation: small-bloom 420ms 160ms var(--ease-spring-soft) both; }
+  .faces .avatar:nth-child(2) { animation-delay: 205ms; }
+  .faces .avatar:nth-child(3) { animation-delay: 250ms; }
+  .faces .avatar:nth-child(4) { animation-delay: 295ms; }
+  .hero-illustration .scene { animation: illustration-breathe 7s 700ms ease-in-out infinite; }
+  .window-copy .eyebrow > svg { animation: gentle-twinkle 3.5s 500ms ease-in-out 2; }
+  .free-block { transform-origin: left center; animation: availability-grow 700ms 120ms var(--ease-out-soft) both; transition: width 400ms var(--ease-out-soft), left 400ms var(--ease-out-soft); }
+  .timeline-row:nth-child(4) .free-block { animation-delay: 190ms; }
+  .timeline-row:nth-child(5) .free-block { animation-delay: 260ms; }
+  .timeline-row:nth-child(6) .free-block { animation-delay: 330ms; }
+  .care-steps > div { transition: color 250ms ease; }
+  .care-steps > div > span { transition: background-color 250ms ease; }
+  .care-steps .completed > span { animation: care-bloom 550ms var(--ease-spring-soft) both; }
+  .care-steps .completed svg, .status-pill svg { stroke-dasharray: 40; animation: check-draw 650ms ease both; }
+  .week-dots .done { animation: small-bloom 420ms var(--ease-spring-soft) both; }
+  .week-dots .done:nth-child(3) { animation-delay: 90ms; }
+  .week-dots .done:nth-child(4) { animation-delay: 150ms; }
+  .week-dots .done:nth-child(5) { animation-delay: 210ms; }
+  .week-dots .done:nth-child(6) { animation-delay: 270ms; }
+  .week-dots .done:nth-child(7) { animation-delay: 330ms; }
+  .week-dots .done:nth-child(8) { animation-delay: 390ms; }
+  .edit-form, .memory-form, .status-pill { animation: arrive 420ms var(--ease-out-soft) both; }
+  .toast { animation: toast-arrive 450ms var(--ease-spring-soft) both; }
+  .toast > svg { animation: small-bloom 480ms 150ms var(--ease-spring-soft) both; }
+  .modal-backdrop { animation: backdrop-arrive 200ms ease both; }
+  .modal { animation: modal-arrive 380ms var(--ease-out-soft) both; }
+  .nav-item.active > svg, .bottom-nav button.active > svg { animation: nav-bloom 420ms var(--ease-spring-soft) both; }
+  .button, .icon-button, .nav-item, .bottom-nav button, .art-picker button,
+  .ritual-preview, .memory-preview, .care-inline {
+    transition: transform 230ms var(--ease-out-soft), background-color 230ms ease,
+      box-shadow 230ms ease, border-color 230ms ease, color 230ms ease;
+  }
+  .button > svg, .text-link > svg, .back > svg, .ritual-preview > svg,
+  .memory-thumb { transition: transform 280ms var(--ease-out-soft); }
+  .button:active:not(:disabled), .art-picker button:active,
+  .icon-button:active, .bottom-nav button:active { transform: scale(.96); }
+  .art-picker .selected { transform: translateY(-3px); }
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 7px 17px #934c3420; }
+    .button:hover:not(:disabled) > .lucide-arrow-right, .text-link:hover > svg { transform: translateX(4px); }
+    .back:hover > svg { transform: translateX(-4px); }
+    .ritual-preview:hover, .memory-preview:hover { translate: 0 -3px; box-shadow: 0 10px 22px #75583e0d; }
+    .ritual-preview, .memory-preview { transition: translate 240ms var(--ease-out-soft), box-shadow 240ms ease, border-color 240ms ease; }
+    .memory-preview:hover .memory-thumb { transform: rotate(0deg) scale(1.04); }
+    .icon-button:hover { transform: rotate(12deg); }
+  }
+}
+@keyframes arrive { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes small-bloom { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: scale(1); } }
+@keyframes nav-bloom { 0% { transform: scale(.8); } 60% { transform: scale(1.12); } 100% { transform: scale(1); } }
+@keyframes illustration-breathe { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-5px) rotate(.6deg); } }
+@keyframes gentle-twinkle { 0%,100% { transform: scale(1) rotate(0); } 50% { transform: scale(1.18) rotate(12deg); } }
+@keyframes availability-grow { from { transform: scaleX(0); opacity: .25; } to { transform: scaleX(1); opacity: 1; } }
+@keyframes care-bloom { 0% { transform: scale(.82); box-shadow: 0 0 0 0 #87997035; } 55% { transform: scale(1.12); box-shadow: 0 0 0 9px #87997000; } 100% { transform: scale(1); box-shadow: 0 0 0 12px #87997000; } }
+@keyframes check-draw { from { stroke-dashoffset: 40; } to { stroke-dashoffset: 0; } }
+@keyframes toast-arrive { from { opacity: 0; transform: translate(-50%,12px) scale(.97); } to { opacity: 1; transform: translate(-50%,0) scale(1); } }
+@keyframes backdrop-arrive { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modal-arrive { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
